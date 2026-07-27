@@ -27,8 +27,19 @@ class MeetingManager:
         dt_str = req.meeting_dt.isoformat()
         original = list(self.meetings.get(emp_id, []))
         self.meetings[emp_id] = [m for m in original if not (
-            m["date"] == dt_str and (req.topic is None or m["topic"] == req.topic)
+            m.get("date") == dt_str and (req.topic is None or m.get("topic") == req.topic)
         )]
         if len(self.meetings[emp_id]) == len(original):
             raise ValueError("No matching meeting to cancel.")
         return f"Canceled meeting for {emp_id} on {dt_str}{f' about {req.topic}' if req.topic else ''}."
+
+    def cancel_meeting_record(self, emp_id: str, meeting: Dict[str, str]) -> str:
+        """Cancel a specific meeting dict as shown in the UI / get_meetings()."""
+        original = list(self.meetings.get(emp_id, []))
+        remaining = [m for m in original if m != meeting]
+        if len(remaining) == len(original):
+            raise ValueError("No matching meeting to cancel.")
+        self.meetings[emp_id] = remaining
+        topic = meeting.get("topic") or meeting.get("title") or "meeting"
+        when = meeting.get("date", "")
+        return f"Canceled '{topic}' for {emp_id} on {when}."

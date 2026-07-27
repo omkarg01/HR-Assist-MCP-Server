@@ -75,7 +75,25 @@ uv sync
 uv run streamlit run streamlit_app.py
 ```
 
-Opens at [http://localhost:8501](http://localhost:8501) with tabs for Directory, Onboard, Leave, Tickets, Meetings, and Lookup.
+Opens at [http://localhost:8501](http://localhost:8501) with tabs for Directory, Onboard, Leave, Tickets, Meetings, Email, and Lookup.
+
+### Email setup (Send email tab)
+
+Local `.env`:
+
+```env
+CB_EMAIL=yourgmail@gmail.com
+CB_EMAIL_PWD=your_16_char_app_password
+```
+
+Streamlit Cloud → **Settings → Secrets**:
+
+```toml
+CB_EMAIL = "yourgmail@gmail.com"
+CB_EMAIL_PWD = "your_16_char_app_password"
+```
+
+Use a Gmail [App Password](https://myaccount.google.com/apppasswords) (not your normal password).
 
 ### Deploy to Streamlit Community Cloud
 
